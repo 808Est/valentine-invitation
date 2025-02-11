@@ -29,7 +29,7 @@
             transform: translate(-50%, -50%);
             width: 300px;
             height: 200px;
-            background-color: #9b59b6; /* New Purple color */
+            background-color: #9b59b6; /* Purple color */
             border: 2px solid #8e44ad;
             border-radius: 12px 12px 0 0;
             padding-bottom: 20px;
@@ -109,15 +109,43 @@
                 inset -1px -1px 2px #fff,
                 inset 1px 1px 2px #c0c0c0;
         }
-        #giftLink, #flowerBouquet {
+        #giftLink {
             display: none;
             text-align: center;
             margin-top: 20px;
-            font-style: normal; /* Remove italics for post-click content */
+            font-style: normal;
+            opacity: 0;
+            animation: fadeInUp 3s forwards, bounce 1s 3s infinite;
         }
         @keyframes fall { 
             0% { top: -10%; } 
             100% { top: 110%; } 
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff1493;
+            border-radius: 50%;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -126,12 +154,12 @@
     <div id="envelope">
         <div id="from-label">From:</div>
         <div id="envelope-content">
-            <div id="envelope-text">Sterlyn to Angie</div>
-            <div id="envelope-emoji">🥀</div>
+            <div id="envelope-text">Sterlyn   to   Angie</div>
+            <div id="envelope-emoji">💝🌹💝</div>
         </div>
     </div>
     <div id="card">
-        <p>Hey baby girl, will you be my sweet Valentine?</p>
+        <p>Would you be my Valentine?</p>
         <button id="yesButton">Yes</button>
     </div>
     <script>
@@ -163,21 +191,26 @@
             // Yes Button Interaction
             document.getElementById('yesButton').addEventListener('click', () => {
                 const giftLink = document.createElement('a');
-                giftLink.href = 'https://www.victoriassecret.com/us/';
+                giftLink.href = 'your-gift-card-link-here';
                 giftLink.id = 'giftLink';
-                giftLink.textContent = 'I emailed you a Victorias Secret Giftcard! Get yourself something nice for our date 😉';
+                giftLink.textContent = 'I emailed you a Victorias Secret Giftcard. Get yourself something nice for our date 😉';
                 giftLink.style.color = 'black';
                 giftLink.style.fontSize = '20px';
                 card.appendChild(giftLink);
 
-                const bouquet = document.createElement('img');
-                bouquet.src = 'bouquet'; // Replace with actual path or URL
-                bouquet.id = 'flowerBouquet';
-                bouquet.style.width = '100px';
-                card.appendChild(bouquet);
-
                 giftLink.style.display = 'block';
-                bouquet.style.display = 'block';
+
+                // Confetti Animation
+                for (let i = 0; i < 50; i++) {
+                    let confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.top = `${Math.random() * 100}%`;
+                    confetti.style.animation = `fall ${Math.random() * 3 + 3}s linear forwards`;
+                    card.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 4000);
+                }
             });
         });
     </script>
